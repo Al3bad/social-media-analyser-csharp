@@ -1,9 +1,14 @@
-﻿// Start program
-Console.WriteLine("Welcome To Social Media Analayser CLI App");
-Post post = new Post(10, "Hello World!", "username", 123, 321, "12/12/2012 12:12");
-Console.WriteLine(post.ToString());
+﻿using System.Collections.Generic;
 
-// Define post class
+// Start program
+Console.WriteLine("Welcome To Social Media Analayser CLI App");
+
+Records records = new Records();
+
+records.GetPosts().Add(new Post(10, "Message 1", "username", 123, 321, "12/12/2012 12:12"));
+records.GetPosts().Add(new Post(20, "Message 2", "username", 123, 321, "15/12/2012 12:12"));
+
+// Definition of post object
 class Post
 {
     private readonly int ID;
@@ -23,8 +28,58 @@ class Post
         this.dateTime = dateTime;
     }
 
+    public int GetID()
+    {
+        return ID;
+    }
+
+    public string GetContent()
+    {
+        return content;
+    }
+
     public override string ToString()
     {
-        return $"{ID},{content},{author},{likes},{shares},{dateTime}";
+        return $"{GetID()},{content},{author},{likes},{shares},{dateTime}";
+    }
+}
+
+// Definition of user object
+class Records
+{
+    private List<Post> posts;
+
+    public Records()
+    {
+        this.posts = new List<Post>();
+    }
+
+    public List<Post> GetPosts()
+    {
+        return posts;
+    }
+
+    public void ReadPosts(string filename)
+    {
+        // TODO: read file
+        Console.WriteLine("TODO: read file ..." + filename);
+
+        // TODO: validate each row
+
+        // TODO: add add post object to list
+    }
+
+    public Post GetPostById(int id)
+    {
+        return posts.Find(post => post.GetID() == id);
+    }
+
+    public void DeletePostById(int id)
+    {
+        int postIdx = posts.FindIndex(post => post.GetID() == id);
+        if (postIdx != -1)
+        {
+            posts.RemoveAt(postIdx);
+        }
     }
 }
