@@ -1,12 +1,30 @@
-﻿using System.Collections.Generic;
-
-// Start program
+﻿// Start program
 Console.WriteLine("Welcome To Social Media Analayser CLI App");
 
+// Program init
 Records records = new Records();
-
 records.GetPosts().Add(new Post(10, "Message 1", "username", 123, 321, "12/12/2012 12:12"));
 records.GetPosts().Add(new Post(20, "Message 2", "username", 123, 321, "15/12/2012 12:12"));
+
+// Init menu
+string title = "Select from main menu";
+Dictionary<string, string> options =
+    new()
+    {
+        { "1", "Add post" },
+        { "2", "Delete post" },
+        { "3", "Retrieve post by ID" },
+        { "4", "Retrieve the top N posts with most likes" },
+        { "5", "Retrieve the top N posts with most shares" },
+        { "6", "Exist" }
+    };
+
+// Display show menu
+Console.WriteLine(title);
+foreach (string option in options.Keys)
+{
+    Console.WriteLine($"{option}) {options[option]}");
+}
 
 // Definition of post object
 class Post
