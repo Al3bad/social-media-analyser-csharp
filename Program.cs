@@ -19,12 +19,53 @@ Dictionary<string, string> options =
         { "6", "Exist" }
     };
 
-// Display show menu
-Console.WriteLine(title);
-foreach (string option in options.Keys)
+string selectedOption;
+do
 {
-    Console.WriteLine($"{option}) {options[option]}");
-}
+    // Display show menu
+    Console.WriteLine(title);
+    foreach (string option in options.Keys)
+    {
+        Console.WriteLine($"{option}) {options[option]}");
+    }
+    // Get user input
+    selectedOption = Console.ReadLine();
+    Console.WriteLine(selectedOption);
+    switch (selectedOption)
+    {
+        case "1":
+            Console.WriteLine("Add post");
+            break;
+        case "2":
+            Console.Write("Please enter post ID: ");
+            records.DeletePostById(int.Parse(Console.ReadLine()));
+            break;
+        case "3":
+            Console.Write("Please enter post ID: ");
+            Post post = records.GetPostById(int.Parse(Console.ReadLine()));
+            if (post != null)
+            {
+                Console.WriteLine(post);
+            }
+            else
+            {
+                Console.WriteLine("Post is not found!");
+            }
+            break;
+        case "4":
+            Console.WriteLine("Retrieve the top N posts with most likes");
+            break;
+        case "5":
+            Console.WriteLine("Retrieve the top N posts with most shares");
+            break;
+        case "6":
+            Console.WriteLine("Exit");
+            break;
+        default:
+            Console.WriteLine("Invalid option");
+            break;
+    }
+} while (selectedOption != "6");
 
 // Definition of post object
 class Post
@@ -69,7 +110,7 @@ class Records
 
     public Records()
     {
-        this.posts = new List<Post>();
+        posts = new List<Post>();
     }
 
     public List<Post> GetPosts()
