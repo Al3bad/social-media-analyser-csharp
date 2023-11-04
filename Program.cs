@@ -19,7 +19,9 @@ Dictionary<string, string> options =
         { "6", "Exist" }
     };
 
-string selectedOption;
+string? selectedOption;
+int postId;
+
 do
 {
     // Display show menu
@@ -38,18 +40,24 @@ do
             break;
         case "2":
             Console.Write("Please enter post ID: ");
-            records.DeletePostById(int.Parse(Console.ReadLine()));
+            if (int.TryParse(Console.ReadLine(), out postId))
+            {
+                records.DeletePostById(postId);
+            }
             break;
         case "3":
             Console.Write("Please enter post ID: ");
-            Post post = records.GetPostById(int.Parse(Console.ReadLine()));
-            if (post != null)
+            if (int.TryParse(Console.ReadLine(), out postId))
             {
-                Console.WriteLine(post);
-            }
-            else
-            {
-                Console.WriteLine("Post is not found!");
+                Post post = records.GetPostById(postId);
+                if (post != null)
+                {
+                    Console.WriteLine(post);
+                }
+                else
+                {
+                    Console.WriteLine("Post is not found!");
+                }
             }
             break;
         case "4":
