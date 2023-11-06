@@ -23,6 +23,10 @@ List<string> options =
         "Exit"
     };
 
+int selectedFieldIdx = 0;
+string[] formFields = { "ID: ", "Author: ", "Likes: ", "Shares: ", "Date/Time: ", "Content: " };
+string[] fieldValues = new string[formFields.Length];
+
 do
 {
     Console.Clear();
@@ -49,7 +53,7 @@ do
             }
             else if (selectedOptionIdx == 0)
             {
-                AddPost();
+                currentScene = Scene.AddPostForm;
             }
             else if (selectedOptionIdx == 1)
             {
@@ -69,6 +73,56 @@ do
             }
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
+        }
+    }
+    else if (currentScene == Scene.AddPostForm)
+    {
+        // Render the form fields
+        for (int i = 0; i < formFields.Length; i++)
+        {
+            if (i == selectedFieldIdx)
+            {
+                Console.Write("> ");
+            }
+            else
+            {
+                Console.Write("  ");
+            }
+
+            Console.WriteLine($"{formFields[i]}{fieldValues[i]}");
+        }
+
+        ConsoleKeyInfo keyInfo = Console.ReadKey();
+
+        // Handle user input
+        if (keyInfo.Key == ConsoleKey.UpArrow)
+        {
+            selectedFieldIdx = Math.Max(0, selectedFieldIdx - 1);
+        }
+        else if (keyInfo.Key == ConsoleKey.DownArrow)
+        {
+            selectedFieldIdx = Math.Min(formFields.Length - 1, selectedFieldIdx + 1);
+        }
+        else if (keyInfo.Key == ConsoleKey.Enter)
+        {
+            break; // Exit the form
+        }
+        else if (keyInfo.Key == ConsoleKey.Backspace)
+        {
+            // Delete one character from the selected field if it's not empty
+            if (fieldValues[selectedFieldIdx].Length > 0)
+            {
+                fieldValues[selectedFieldIdx] = fieldValues[selectedFieldIdx].Substring(
+                    0,
+                    fieldValues[selectedFieldIdx].Length - 1
+                );
+            }
+        }
+        else
+        {
+            // Edit the selected field
+            Console.SetCursorPosition(formFields[selectedFieldIdx].Length + 2, selectedFieldIdx);
+            fieldValues[selectedFieldIdx] += keyInfo.KeyChar.ToString();
         }
     }
 } while (true);
