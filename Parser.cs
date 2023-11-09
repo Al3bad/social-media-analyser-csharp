@@ -24,4 +24,21 @@ public class Parser
         }
         return parsedValue;
     }
+
+    public static DateTime ParseDateTime(string value, string format)
+    {
+        if (
+            !DateTime.TryParseExact(
+                value,
+                format,
+                null,
+                System.Globalization.DateTimeStyles.None,
+                out DateTime parsedValue
+            )
+        )
+        {
+            throw new Exception();
+        }
+        return parsedValue;
+    }
 }
