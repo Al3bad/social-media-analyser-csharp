@@ -1,34 +1,26 @@
 public class Post
 {
-    private readonly int ID;
-    private readonly string content;
-    private readonly string author;
-    private readonly int likes;
-    private readonly int shares;
-    private readonly string dateTime;
+    public int ID { get; set; }
+    public string Content { get; set; }
+    public string Author { get; set; }
+    public int Likes { get; set; }
+    public int Shares { get; set; }
+    public DateTime DateTime { get; set; }
 
-    public Post(int ID, string content, string author, int likes, int shares, string dateTime)
-    {
-        this.ID = ID;
-        this.content = content;
-        this.author = author;
-        this.likes = likes;
-        this.shares = shares;
-        this.dateTime = dateTime;
-    }
+    public Post() { }
 
-    public int GetID()
+    public Post(int id, string content, string author, int likes, int shares, DateTime dateTime)
     {
-        return ID;
-    }
-
-    public string GetContent()
-    {
-        return content;
+        ID = id;
+        Content = content;
+        Author = author;
+        Likes = likes;
+        Shares = shares;
+        DateTime = dateTime;
     }
 
     public override string ToString()
     {
-        return $"{GetID()},{content},{author},{likes},{shares},{dateTime}";
+        return $"{ID},{Content},{Author},{Likes},{Shares},{DateTime}";
     }
 }

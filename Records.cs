@@ -19,12 +19,12 @@ public class Records
 
     public Post GetPostById(int id)
     {
-        return Posts.Find(post => post.GetID() == id);
+        return Posts.Find(post => post.ID == id);
     }
 
     public void DeletePostById(int id)
     {
-        int postIdx = Posts.FindIndex(post => post.GetID() == id);
+        int postIdx = Posts.FindIndex(post => post.ID == id);
         if (postIdx != -1)
         {
             Posts.RemoveAt(postIdx);
