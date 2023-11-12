@@ -1,4 +1,4 @@
-﻿UI.Heading("Welcome To Social Media Analayser CLI App", 70);
+﻿using enums;
 
 // ----------------------------------------------
 // --> Init program
@@ -11,21 +11,11 @@ records.Posts.Add(new Post(20, "Message 2", "username", 123, 321, "15/12/2012 12
 // --> Run
 // ----------------------------------------------
 Scene currentScene = Scene.MainMenu;
-int selectedOptionIdx = 0;
-List<string> options =
-    new()
-    {
-        "Add post",
-        "Delete post",
-        "Retrieve post by ID",
-        "Retrieve the top N posts with most likes",
-        "Retrieve the top N posts with most shares",
-        "Exit"
-    };
 
 int selectedFieldIdx = 0;
 string[] formFields = { "ID: ", "Author: ", "Likes: ", "Shares: ", "Date/Time: ", "Content: " };
 string[] fieldValues = new string[formFields.Length];
+MainMenuOption selectedOption = MainMenuOption.AddPost;
 
 do
 {
@@ -35,45 +25,47 @@ do
     if (currentScene == Scene.MainMenu)
     {
         UI.Heading("Select from main menu", 70);
-        UI.Menu(options, selectedOptionIdx);
-        ConsoleKeyInfo keyInfo = Console.ReadKey();
-        if (keyInfo.Key == ConsoleKey.UpArrow)
-        {
-            selectedOptionIdx = Math.Max(0, selectedOptionIdx - 1);
-        }
-        else if (keyInfo.Key == ConsoleKey.DownArrow)
-        {
-            selectedOptionIdx = Math.Min(options.Count - 1, selectedOptionIdx + 1);
-        }
-        else if (keyInfo.Key == ConsoleKey.Enter)
-        {
-            if (selectedOptionIdx == options.Count - 1)
+        UI.Menu(
+            new List<Option<MainMenuOption>>()
             {
-                break;
-            }
-            else if (selectedOptionIdx == 0)
+                new(MainMenuOption.AddPost, "Add post"),
+                new(MainMenuOption.DeletePost, "Delete post"),
+                new(MainMenuOption.RetrievePost, "Retrieve post by ID"),
+                new(
+                    MainMenuOption.RetrieveMostLikedPosts,
+                    "Retrieve the top N posts with most likes"
+                ),
+                new(
+                    MainMenuOption.RetrieveMostSharedPosts,
+                    "Retrieve the top N posts with most shares"
+                ),
+                new(MainMenuOption.Exit, "Exit")
+            },
+            selectedOption =>
             {
-                currentScene = Scene.AddPostForm;
+                switch (selectedOption)
+                {
+                    case MainMenuOption.AddPost:
+                        currentScene = Scene.AddPostForm;
+                        break;
+                    case MainMenuOption.DeletePost:
+                        DeletePost();
+                        break;
+                    case MainMenuOption.RetrievePost:
+                        GetPostById();
+                        break;
+                    case MainMenuOption.RetrieveMostLikedPosts:
+                        GetMostLikedPosts();
+                        break;
+                    case MainMenuOption.RetrieveMostSharedPosts:
+                        GetMostSharedPosts();
+                        break;
+                    case MainMenuOption.Exit:
+                        Environment.Exit(0);
+                        break;
+                }
             }
-            else if (selectedOptionIdx == 1)
-            {
-                DeletePost();
-            }
-            else if (selectedOptionIdx == 2)
-            {
-                GetPostById();
-            }
-            else if (selectedOptionIdx == 3)
-            {
-                GetMostLikedPosts();
-            }
-            else if (selectedOptionIdx == 4)
-            {
-                GetMostSharedPosts();
-            }
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
-        }
+        );
     }
     else if (currentScene == Scene.AddPostForm)
     {
