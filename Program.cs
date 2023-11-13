@@ -1,22 +1,36 @@
 ﻿using enums;
 
+UI.Heading("Welcome To Social Media Analayser CLI App", 70);
+
 // ----------------------------------------------
 // --> Init program
 // ----------------------------------------------
 Records records = new();
-records.Posts.Add(new Post(10, "Message 1", "username", 123, 321, "12/12/2012 12:12"));
-records.Posts.Add(new Post(20, "Message 2", "username", 123, 321, "15/12/2012 12:12"));
+records.Posts.Add(
+    new Post(
+        10,
+        "Message 1",
+        "username",
+        123,
+        321,
+        Parser.ParseDateTime("12/12/2012 12:12", "dd/MM/yyyy HH:mm")
+    )
+);
+records.Posts.Add(
+    new Post(
+        20,
+        "Message 2",
+        "username",
+        123,
+        321,
+        Parser.ParseDateTime("12/12/2012 12:12", "dd/MM/yyyy HH:mm")
+    )
+);
 
 // ----------------------------------------------
 // --> Run
 // ----------------------------------------------
 Scene currentScene = Scene.MainMenu;
-
-int selectedFieldIdx = 0;
-string[] formFields = { "ID: ", "Author: ", "Likes: ", "Shares: ", "Date/Time: ", "Content: " };
-string[] fieldValues = new string[formFields.Length];
-MainMenuOption selectedOption = MainMenuOption.AddPost;
-
 do
 {
     Console.Clear();
@@ -69,53 +83,27 @@ do
     }
     else if (currentScene == Scene.AddPostForm)
     {
-        // Render the form fields
-        for (int i = 0; i < formFields.Length; i++)
-        {
-            if (i == selectedFieldIdx)
+        UI.Form(
+            new List<IField>()
             {
-                Console.Write("> ");
-            }
-            else
+                new Field<int>("ID", value => Parser.ParseInt(value, 0)),
+                new Field<string>("Author", value => Parser.ParseStr(value)),
+                new Field<int>("Likes", value => Parser.ParseInt(value, 0)),
+                new Field<int>("Shares", value => Parser.ParseInt(value, 0)),
+                new Field<DateTime>(
+                    "Date/Time",
+                    value => Parser.ParseDateTime(value, "dd/MM/yyyy HH:mm")
+                ),
+                new Field<string>("Content", value => Parser.ParseStr(value)),
+            },
+            (fields) =>
             {
-                Console.Write("  ");
+                if (AddPost(fields))
+                {
+                    currentScene = Scene.MainMenu;
+                }
             }
-
-            Console.WriteLine($"{formFields[i]}{fieldValues[i]}");
-        }
-
-        ConsoleKeyInfo keyInfo = Console.ReadKey();
-
-        // Handle user input
-        if (keyInfo.Key == ConsoleKey.UpArrow)
-        {
-            selectedFieldIdx = Math.Max(0, selectedFieldIdx - 1);
-        }
-        else if (keyInfo.Key == ConsoleKey.DownArrow)
-        {
-            selectedFieldIdx = Math.Min(formFields.Length - 1, selectedFieldIdx + 1);
-        }
-        else if (keyInfo.Key == ConsoleKey.Enter)
-        {
-            break; // Exit the form
-        }
-        else if (keyInfo.Key == ConsoleKey.Backspace)
-        {
-            // Delete one character from the selected field if it's not empty
-            if (fieldValues[selectedFieldIdx].Length > 0)
-            {
-                fieldValues[selectedFieldIdx] = fieldValues[selectedFieldIdx].Substring(
-                    0,
-                    fieldValues[selectedFieldIdx].Length - 1
-                );
-            }
-        }
-        else
-        {
-            // Edit the selected field
-            Console.SetCursorPosition(formFields[selectedFieldIdx].Length + 2, selectedFieldIdx);
-            fieldValues[selectedFieldIdx] += keyInfo.KeyChar.ToString();
-        }
+        );
     }
 } while (true);
 
@@ -166,13 +154,4 @@ void GetMostLikedPosts()
 void GetMostSharedPosts()
 {
     Console.WriteLine("Retrieve the top N posts with most shares");
-}
-
-enum Scene
-{
-    MainMenu,
-    AddPostForm,
-    DeletePostForm,
-    GetPostForm,
-    GetPostsForm
 }

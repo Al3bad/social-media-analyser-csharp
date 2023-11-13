@@ -21,7 +21,6 @@ public class UI
     {
         // initial value of selected option
         int selectedOption = 0;
-
         while (true)
         {
             // clear screen
@@ -38,7 +37,7 @@ public class UI
                     Console.WriteLine($"  {options[i].Label}");
                 }
             }
-            // take user intput
+            // take user input
             ConsoleKeyInfo keyInfo = Console.ReadKey();
             // take action based on input
             if (keyInfo.Key == ConsoleKey.UpArrow)
@@ -56,10 +55,81 @@ public class UI
             }
         }
     }
+
+    public static void Form(List<IField> fields, Action<List<IField>> callback)
+    {
+        // initial value of selected option
+        int selectedField = 0;
+        while (true)
+        {
+            // clear screen
+            Console.Clear();
+            // print form with typed values so far
+            for (int i = 0; i < fields.Count; i++)
+            {
+                if (i == selectedField)
+                {
+                    Console.Write("> ");
+                }
+                else
+                {
+                    Console.Write("  ");
+                }
+                Console.WriteLine($"{fields[i].Label, -10}: {fields[i].Value}");
+            }
+            // take user input
+            ConsoleKeyInfo keyInfo = Console.ReadKey();
+            // take action based on input
+            if (keyInfo.Key == ConsoleKey.UpArrow)
+            {
+                selectedField = Math.Max(0, selectedField - 1);
+            }
+            else if (keyInfo.Key == ConsoleKey.DownArrow)
+            {
+                selectedField = Math.Min(fields.Count - 1, selectedField + 1);
+            }
+            else if (keyInfo.Key == ConsoleKey.Enter)
+            {
+                bool isValid = true;
+                foreach (IField field in fields)
+                {
+                    try
+                    {
+                        var _ = field.ParsedValue;
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine($"Invalid value for {field.Label}");
+                        isValid = false;
+                    }
+                }
+                if (!isValid)
+                {
+                    Console.WriteLine("Form is not valid! Hit enter to try again!");
+                    Console.ReadLine();
+                }
+                else
+                {
+                    callback(fields);
+                    return;
+                }
+            }
+            else if (keyInfo.Key == ConsoleKey.Backspace)
+            {
+                // Delete one character from the selected field if it's not empty
+                if (fields[selectedField].Value.Length > 0)
+                {
+                    fields[selectedField].Value = fields[selectedField].Value.Substring(
+                        0,
+                        fields[selectedField].Value.Length - 1
+                    );
+                }
             }
             else
             {
-                Console.WriteLine($"  {options[i]}");
+                // Edit the selected field
+                Console.SetCursorPosition(fields[selectedField].Value.Length + 2, selectedField);
+                fields[selectedField].Value += keyInfo.KeyChar.ToString();
             }
         }
     }
