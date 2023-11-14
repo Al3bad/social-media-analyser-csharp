@@ -110,14 +110,51 @@ do
 // ----------------------------------------------
 // --> Functions
 // ----------------------------------------------
-void AddPost()
+bool AddPost(List<IField> fields)
 {
-    Console.WriteLine("TODO: Add post");
-    // TODO: take valid user input
+    Post post = new();
 
-    // TODO: create post obj
-
-    // TODO: add object to the list
+    // Iterate over the fields array and set values in the Post object
+    try
+    {
+        foreach (IField field in fields)
+        {
+            switch (field.Label)
+            {
+                case "ID":
+                    post.ID = ((Field<int>)field).ParsedValue;
+                    break;
+                case "Author":
+                    post.Author = ((Field<string>)field).ParsedValue;
+                    break;
+                case "Likes":
+                    post.Likes = ((Field<int>)field).ParsedValue;
+                    break;
+                case "Shares":
+                    post.Shares = ((Field<int>)field).ParsedValue;
+                    break;
+                case "Date/Time":
+                    post.DateTime = ((Field<DateTime>)field).ParsedValue;
+                    break;
+                case "Content":
+                    post.Content = ((Field<string>)field).ParsedValue;
+                    break;
+                // Handle other fields if needed
+                default:
+                    break;
+            }
+        }
+        records.Posts.Add(post);
+        Console.WriteLine("New post has been successfuly created!");
+        Console.ReadLine();
+        return true;
+    }
+    catch (Exception)
+    {
+        Console.WriteLine("Form is not valid! Hit enter to try again!");
+        Console.ReadLine();
+        return false;
+    }
 }
 
 void DeletePost()
