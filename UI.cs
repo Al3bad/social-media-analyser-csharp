@@ -95,7 +95,7 @@ public class UI
                 {
                     try
                     {
-                        var _ = field.ParsedValue;
+                        _ = field.ParsedValue;
                     }
                     catch (Exception)
                     {
@@ -105,8 +105,8 @@ public class UI
                 }
                 if (!isValid)
                 {
-                    Console.WriteLine("Form is not valid! Hit enter to try again!");
-                    Console.ReadLine();
+                    Console.WriteLine("Form is not valid! Hit enter to try again...");
+                    _ = Console.ReadLine();
                 }
                 else
                 {
@@ -134,8 +134,45 @@ public class UI
         }
     }
 
-    public static void Prompt(string prompt)
+    public static T? Prompt<T>(string prompt, Func<string, T> parsor) where T : struct, IEquatable<T> // allow int,double and strings
     {
-        Console.Write($"{prompt}: ");
+        string value = "";
+        while (true)
+        {
+            Console.Clear();
+            Console.Write($"{prompt}: {value}");
+            // take user input
+            ConsoleKeyInfo keyInfo = Console.ReadKey();
+            // take action based on input
+            if (keyInfo.Key == ConsoleKey.Enter)
+            {
+                try
+                {
+                    Console.Clear();
+                    return parsor(value);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine($"Invalid value! Hit enter to try again...");
+                    _ = Console.ReadLine();
+                }
+            }
+            else if (keyInfo.Key == ConsoleKey.Escape)
+            {
+                return null;
+            }
+            else if (keyInfo.Key == ConsoleKey.Backspace)
+            {
+                if (value.Length > 0)
+                {
+                    value = value.Substring(0, value.Length - 1);
+                }
+            }
+            else
+            {
+                Console.SetCursorPosition(value.Length + 2, 0);
+                value += keyInfo.KeyChar.ToString();
+            }
+        }
     }
 }

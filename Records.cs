@@ -4,7 +4,7 @@ public class Records
 
     public Records()
     {
-        Posts = new List<Post>();
+        Posts = [];
     }
 
     public void ReadPosts(string filename)
@@ -17,7 +17,7 @@ public class Records
         // TODO: add add post object to list
     }
 
-    public Post GetPostById(int id)
+    public Post? GetPostById(int id)
     {
         return Posts.Find(post => post.ID == id);
     }

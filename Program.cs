@@ -152,26 +152,28 @@ bool AddPost(List<IField> fields)
     catch (Exception)
     {
         Console.WriteLine("Form is not valid! Hit enter to try again!");
-        Console.ReadLine();
+        _ = Console.ReadLine();
         return false;
     }
 }
 
 void DeletePost()
 {
-    UI.Prompt("Please enter post ID");
-    if (int.TryParse(Console.ReadLine(), out int postId))
+    int? postId = UI.Prompt<int>("Please enter post ID", input => Parser.ParseInt(input, 0));
+    if (postId != null)
     {
-        records.DeletePostById(postId);
+        records.DeletePostById(postId.Value);
+        Console.WriteLine("Post has been successfuly created!");
+        _ = Console.ReadLine();
     }
 }
 
 void GetPostById()
 {
-    Console.Write("Please enter post ID: ");
-    if (int.TryParse(Console.ReadLine(), out int postId))
+    int? postId = UI.Prompt<int>("Please enter post ID", input => Parser.ParseInt(input, 0));
+    if (postId != null)
     {
-        Post post = records.GetPostById(postId);
+        Post? post = records.GetPostById(postId.Value);
         if (post != null)
         {
             Console.WriteLine(post);
@@ -180,6 +182,7 @@ void GetPostById()
         {
             Console.WriteLine("Post is not found!");
         }
+        _ = Console.ReadLine();
     }
 }
 
