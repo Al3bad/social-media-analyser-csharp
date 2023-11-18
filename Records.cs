@@ -30,4 +30,19 @@ public class Records
             Posts.RemoveAt(postIdx);
         }
     }
+
+    public IEnumerable<Post> GetMostLikedPosts(int limit)
+    {
+        return (from post in Posts
+                orderby post.Likes descending
+                select post).Take(limit);
+    }
+
+    public IEnumerable<Post> GetMostSharedPosts(int limit)
+    {
+        return (from post in Posts
+                orderby post.Shares descending
+                select post).Take(limit);
+    }
+
 }

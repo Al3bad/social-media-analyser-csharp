@@ -188,10 +188,28 @@ void GetPostById()
 
 void GetMostLikedPosts()
 {
-    Console.WriteLine("Retrieve the top N posts with most likes");
+    int? limit = UI.Prompt<int>("Please enter the number of posts you want to see", input => Parser.ParseInt(input, 0));
+    if (limit != null)
+    {
+        IEnumerable<Post> posts = records.GetMostLikedPosts(limit.Value);
+        foreach (Post post in posts)
+        {
+            Console.WriteLine(post);
+        }
+        _ = Console.ReadLine();
+    }
 }
 
 void GetMostSharedPosts()
 {
-    Console.WriteLine("Retrieve the top N posts with most shares");
+    int? limit = UI.Prompt<int>("Please enter the number of posts you want to see", input => Parser.ParseInt(input, 0));
+    if (limit != null)
+    {
+        IEnumerable<Post> posts = records.GetMostSharedPosts(limit.Value);
+        foreach (Post post in posts)
+        {
+            Console.WriteLine(post);
+        }
+        _ = Console.ReadLine();
+    }
 }
