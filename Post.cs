@@ -19,6 +19,20 @@ public class Post
         DateTime = dateTime;
     }
 
+    public string GetColumnValue(int columnIndex)
+    {
+        switch (columnIndex)
+        {
+            case 0: return ID.ToString();
+            case 1: return DateTime.ToString();
+            case 2: return Author;
+            case 3: return Likes.ToString();
+            case 4: return Shares.ToString();
+            case 5: return Content;
+            default: return string.Empty;
+        }
+    }
+
     public override string ToString()
     {
         return $"{ID},{Content},{Author},{Likes},{Shares},{DateTime}";

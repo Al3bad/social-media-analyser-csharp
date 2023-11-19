@@ -192,10 +192,8 @@ void GetMostLikedPosts()
     if (limit != null)
     {
         IEnumerable<Post> posts = records.GetMostLikedPosts(limit.Value);
-        foreach (Post post in posts)
-        {
-            Console.WriteLine(post);
-        }
+        List<string> headings = ["ID", "Date/Time", "Author", "Likes", "Shares", "Content"];
+        UI.Table(headings, posts.ToList());
         _ = Console.ReadLine();
     }
 }
@@ -206,10 +204,8 @@ void GetMostSharedPosts()
     if (limit != null)
     {
         IEnumerable<Post> posts = records.GetMostSharedPosts(limit.Value);
-        foreach (Post post in posts)
-        {
-            Console.WriteLine(post);
-        }
+        List<string> headings = ["ID", "Date/Time", "Author", "Likes", "Shares", "Content"];
+        UI.Table(headings, posts.ToList());
         _ = Console.ReadLine();
     }
 }

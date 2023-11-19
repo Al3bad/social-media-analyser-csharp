@@ -175,4 +175,72 @@ public class UI
             }
         }
     }
+
+    public static void Table(List<string> headings, List<Post> records)
+    {
+        // Example
+        // | ID | Date/Time        | Author   | Likes | Shares | Content     |
+        // |----|------------------|----------|-------|--------|-------------|
+        // | 10 | 12/12/2012 12:12 | username | 123   | 321    | Message 1   |
+        // | 20 | 12/12/2012 12:12 | username | 123   | 321    | Hello World |
+
+        // Calculate column widths based on headings and post data
+        List<int> columnWidths = CalculateColumnWidths(headings, records);
+        // Print the table header
+        PrintTableLine(columnWidths);
+        PrintTableRow(headings, columnWidths);
+        PrintTableLine(columnWidths);
+        // Print the table data
+        foreach (Post post in records)
+        {
+            List<string> rowData =
+            [
+                post.ID.ToString(),
+                post.DateTime.ToString(),
+                post.Author,
+                post.Likes.ToString(),
+                post.Shares.ToString(),
+                post.Content
+            ];
+
+            PrintTableRow(rowData, columnWidths);
+        }
+        // Print the table footer
+        PrintTableLine(columnWidths);
+    }
+
+    private static List<int> CalculateColumnWidths(List<string> headings, List<Post> posts)
+    {
+        List<int> columnWidths = headings.Select(h => h.Length).ToList();
+
+        foreach (Post post in posts)
+        {
+            for (int i = 0; i < headings.Count; i++)
+            {
+                int cellLength = post.GetColumnValue(i).Length;
+                if (cellLength > columnWidths[i])
+                {
+                    columnWidths[i] = cellLength;
+                }
+            }
+        }
+
+        return columnWidths;
+    }
+
+    private static void PrintTableLine(List<int> columnWidths)
+    {
+        Console.WriteLine("+" + string.Join("+", columnWidths.Select(width => new string('-', width + 2))) + "+");
+    }
+
+    private static void PrintTableRow(List<string> rowData, List<int> columnWidths)
+    {
+        Console.Write("|");
+        for (int i = 0; i < rowData.Count; i++)
+        {
+            Console.Write($" {rowData[i].PadRight(columnWidths[i])} |");
+        }
+        Console.WriteLine();
+    }
+
 }
