@@ -15,10 +15,15 @@ public class Parser
         return parsedValue;
     }
 
-    public static string ParseStr(string value, bool allowEmpty = false)
+    public static string ParseStr(string value, bool allowEmpty = false, bool allowSpaces = true)
     {
         string parsedValue = value.Trim();
+        Console.WriteLine(parsedValue.Split(" ").Length);
         if (parsedValue.Length == 0)
+        {
+            throw new Exception();
+        }
+        if (!allowSpaces && parsedValue.Split(" ").Length > 1)
         {
             throw new Exception();
         }

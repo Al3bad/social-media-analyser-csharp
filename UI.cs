@@ -209,15 +209,15 @@ public class UI
         PrintTableLine(columnWidths);
     }
 
-    private static List<int> CalculateColumnWidths(List<string> headings, List<Post> posts)
+    private static List<int> CalculateColumnWidths(List<string> headings, List<Post> records)
     {
         List<int> columnWidths = headings.Select(h => h.Length).ToList();
 
-        foreach (Post post in posts)
+        foreach (Post record in records)
         {
             for (int i = 0; i < headings.Count; i++)
             {
-                int cellLength = post.GetColumnValue(i).Length;
+                int cellLength = record.GetColumnValue(i).Length;
                 if (cellLength > columnWidths[i])
                 {
                     columnWidths[i] = cellLength;
@@ -242,5 +242,4 @@ public class UI
         }
         Console.WriteLine();
     }
-
 }

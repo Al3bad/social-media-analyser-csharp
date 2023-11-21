@@ -6,26 +6,6 @@ UI.Heading("Welcome To Social Media Analayser CLI App", 70);
 // --> Init program
 // ----------------------------------------------
 Records records = new();
-records.Posts.Add(
-    new Post(
-        10,
-        "Message 1",
-        "username",
-        123,
-        321,
-        Parser.ParseDateTime("12/12/2012 12:12", "dd/MM/yyyy HH:mm")
-    )
-);
-records.Posts.Add(
-    new Post(
-        20,
-        "Message 2",
-        "username",
-        123,
-        321,
-        Parser.ParseDateTime("12/12/2012 12:12", "dd/MM/yyyy HH:mm")
-    )
-);
 
 // ----------------------------------------------
 // --> Run
@@ -87,7 +67,7 @@ do
             new List<IField>()
             {
                 new Field<int>("ID", value => Parser.ParseInt(value, 0)),
-                new Field<string>("Author", value => Parser.ParseStr(value)),
+                new Field<string>("Author", value => Parser.ParseStr(value, allowSpaces: false)),
                 new Field<int>("Likes", value => Parser.ParseInt(value, 0)),
                 new Field<int>("Shares", value => Parser.ParseInt(value, 0)),
                 new Field<DateTime>(
