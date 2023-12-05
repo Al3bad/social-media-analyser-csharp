@@ -78,7 +78,7 @@ do
             },
             (fields) =>
             {
-                if (AddPost(fields))
+                if (fields is null || AddPost(fields))
                 {
                     currentScene = Scene.MainMenu;
                 }

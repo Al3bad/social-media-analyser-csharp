@@ -125,6 +125,11 @@ public class UI
                     );
                 }
             }
+            else if (keyInfo.Key == ConsoleKey.Escape)
+            {
+                callback(null);
+                return;
+            }
             else
             {
                 // Edit the selected field

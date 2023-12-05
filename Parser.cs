@@ -18,7 +18,6 @@ public class Parser
     public static string ParseStr(string value, bool allowEmpty = false, bool allowSpaces = true)
     {
         string parsedValue = value.Trim();
-        Console.WriteLine(parsedValue.Split(" ").Length);
         if (parsedValue.Length == 0)
         {
             throw new Exception();
