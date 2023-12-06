@@ -57,6 +57,9 @@ do
                     case MainMenuOption.Exit:
                         Environment.Exit(0);
                         break;
+                    default:
+                        Console.WriteLine("Invalid Options!");
+                        break;
                 }
             }
         );
@@ -64,8 +67,7 @@ do
     else if (currentScene == Scene.AddPostForm)
     {
         UI.Form(
-            new List<IField>()
-            {
+            [
                 new Field<int>("ID", value => Parser.ParseInt(value, 0)),
                 new Field<string>("Author", value => Parser.ParseStr(value, allowSpaces: false)),
                 new Field<int>("Likes", value => Parser.ParseInt(value, 0)),
@@ -75,7 +77,7 @@ do
                     value => Parser.ParseDateTime(value, "dd/MM/yyyy HH:mm")
                 ),
                 new Field<string>("Content", value => Parser.ParseStr(value)),
-            },
+            ],
             (fields) =>
             {
                 if (fields is null || AddPost(fields))
@@ -126,7 +128,7 @@ bool AddPost(List<IField> fields)
         }
         records.Posts.Add(post);
         Console.WriteLine("New post has been successfuly created!");
-        Console.ReadLine();
+        _ = Console.ReadLine();
         return true;
     }
     catch (Exception)
@@ -156,7 +158,8 @@ void GetPostById()
         Post? post = records.GetPostById(postId.Value);
         if (post != null)
         {
-            Console.WriteLine(post);
+            List<string> headings = ["ID", "Date/Time", "Author", "Likes", "Shares", "Content"];
+            UI.Table(headings, [post]);
         }
         else
         {
