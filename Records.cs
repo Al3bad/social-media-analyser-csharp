@@ -9,12 +9,45 @@ public class Records
 
     public void ReadPosts(string filename)
     {
-        // TODO: read file
-        Console.WriteLine("TODO: read file ..." + filename);
+        Console.WriteLine($"Reading {filename}...");
+        try
+        {
+            int validRecordsCount = 0;
+            int invalidRecordsCount = 0;
+            using StreamReader sr = File.OpenText(filename);
+            string row;
+            while ((row = sr.ReadLine()) != null)
+            {
+                try
+                {
+                    string[] fields = Parser.ParseCSV(row, 6);
+                    validRecordsCount++;
+                    Posts.Add(new Post()
+                    {
+                        ID = Parser.ParseInt(fields[0], 0),
+                        Content = Parser.ParseStr(fields[1], allowEmpty: true),
+                        Author = Parser.ParseStr(fields[2], allowSpaces: false),
+                        Likes = Parser.ParseInt(fields[3], 0),
+                        Shares = Parser.ParseInt(fields[4], 0),
+                        DateTime = Parser.ParseDateTime(fields[5], "d/M/yyyy HH:mm")
+                    });
+                }
+                catch (Exception)
+                {
+                    invalidRecordsCount++;
+                }
+            }
+            Console.WriteLine($"Number of valid posts {validRecordsCount}");
+            Console.WriteLine($"Number of invalid posts {invalidRecordsCount}");
+            Console.WriteLine("Press enter to continue...");
+            _ = Console.ReadLine();
+        }
+        catch (FileNotFoundException)
+        {
+            Console.WriteLine("File does not exist! Press enter to continer...");
+            _ = Console.ReadLine();
+        }
 
-        // TODO: validate each row
-
-        // TODO: add add post object to list
     }
 
     public Post? GetPostById(int id)

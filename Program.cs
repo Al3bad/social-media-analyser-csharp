@@ -6,6 +6,7 @@ UI.Heading("Welcome To Social Media Analayser CLI App", 70);
 // --> Init program
 // ----------------------------------------------
 Records records = new();
+records.ReadPosts("posts.csv");
 
 // ----------------------------------------------
 // --> Run
@@ -74,7 +75,7 @@ do
                 new Field<int>("Shares", value => Parser.ParseInt(value, 0)),
                 new Field<DateTime>(
                     "Date/Time",
-                    value => Parser.ParseDateTime(value, "dd/MM/yyyy HH:mm")
+                    value => Parser.ParseDateTime(value, "d/M/yyyy HH:mm")
                 ),
                 new Field<string>("Content", value => Parser.ParseStr(value)),
             ],
