@@ -80,11 +80,11 @@ public class UI
             // take user input
             ConsoleKeyInfo keyInfo = Console.ReadKey();
             // take action based on input
-            if (keyInfo.Key == ConsoleKey.UpArrow)
+            if (keyInfo.Key == ConsoleKey.UpArrow || (keyInfo.Modifiers.HasFlag(ConsoleModifiers.Shift) && keyInfo.Key == ConsoleKey.Tab))
             {
                 selectedField = Math.Max(0, selectedField - 1);
             }
-            else if (keyInfo.Key == ConsoleKey.DownArrow)
+            else if (keyInfo.Key == ConsoleKey.DownArrow || keyInfo.Key == ConsoleKey.Tab)
             {
                 selectedField = Math.Min(fields.Count - 1, selectedField + 1);
             }
