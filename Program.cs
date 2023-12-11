@@ -6,7 +6,12 @@ UI.Heading("Welcome To Social Media Analayser CLI App", 70);
 // --> Init program
 // ----------------------------------------------
 Records records = new();
-records.ReadPosts("posts.csv");
+string filename = "post.csv";
+if (Environment.GetCommandLineArgs().Length > 1)
+{
+    filename = Environment.GetCommandLineArgs()[1];
+}
+records.ReadPosts(filename);
 
 // ----------------------------------------------
 // --> Run
