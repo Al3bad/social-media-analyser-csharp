@@ -42,11 +42,19 @@ public class UI
             // take action based on input
             if (keyInfo.Key == ConsoleKey.UpArrow)
             {
-                selectedOption = Math.Max(0, selectedOption - 1);
+                selectedOption--;
+                if (selectedOption < 0)
+                {
+                    selectedOption = options.Count - 1;
+                }
             }
             else if (keyInfo.Key == ConsoleKey.DownArrow)
             {
-                selectedOption = Math.Min(options.Count - 1, selectedOption + 1);
+                selectedOption++;
+                if (selectedOption > options.Count - 1)
+                {
+                    selectedOption = 0;
+                }
             }
             else if (keyInfo.Key == ConsoleKey.Enter)
             {
@@ -82,11 +90,19 @@ public class UI
             // take action based on input
             if (keyInfo.Key == ConsoleKey.UpArrow || (keyInfo.Modifiers.HasFlag(ConsoleModifiers.Shift) && keyInfo.Key == ConsoleKey.Tab))
             {
-                selectedField = Math.Max(0, selectedField - 1);
+                selectedField--;
+                if (selectedField < 0)
+                {
+                    selectedField = fields.Count - 1;
+                }
             }
             else if (keyInfo.Key == ConsoleKey.DownArrow || keyInfo.Key == ConsoleKey.Tab)
             {
-                selectedField = Math.Min(fields.Count - 1, selectedField + 1);
+                selectedField++;
+                if (selectedField > fields.Count - 1)
+                {
+                    selectedField = 0;
+                }
             }
             else if (keyInfo.Key == ConsoleKey.Enter)
             {
