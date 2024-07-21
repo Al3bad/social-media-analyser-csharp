@@ -13,4 +13,4 @@ This is a CLI version of [Data Analytics Hub](https://github.com/Al3bad/data-ana
 
 # Demo
 
-![demo](./videos/demo.mp4)
+https://github.com/user-attachments/assets/1da6c81d-989b-46a3-84e6-15a14275bfc4
