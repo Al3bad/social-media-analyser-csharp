@@ -151,7 +151,7 @@ void DeletePost()
     if (postId != null)
     {
         records.DeletePostById(postId.Value);
-        Console.WriteLine("Post has been successfuly created!");
+        Console.WriteLine("Post has been successfuly deleted!");
         _ = Console.ReadLine();
     }
 }
